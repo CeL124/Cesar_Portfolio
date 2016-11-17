@@ -1,0 +1,114 @@
+// File: CesarData1.txt
+// Data file for SeaPort projects
+// Date: Tue Oct 11 15:28:40 EDT 2016
+// parameters: 3 3 2 5 3 8
+//   ports, docks, pships, cships, jobs, persons
+
+// port   name index parent(null)
+//    port   <string> <int> <int>
+port Minsk 10002 0
+port Malabo 10000 0
+port Nawilwili 10001 0
+
+// dock   name index parent(port)
+//    dock   <string> <int> <int>
+  dock Pier_19 20019 10002 40013
+  dock Pier_11 20011 10001 40007
+  dock Pier_13 20013 10001 40009
+  dock Pier_2 20002 10000 40000
+  dock Pier_15 20015 10002 30005
+  dock Pier_5 20005 10000 40003
+  dock Pier_20 20020 10002 40014
+  dock Pier_1 20001 10000 30001
+  dock Pier_7 20007 10001 30002
+  dock Pier_8 20008 10001 30003
+  dock Pier_10 20010 10001 40006
+  dock Pier_14 20014 10002 30004
+  dock Pier_6 20006 10000 40004
+  dock Pier_9 20009 10001 40005
+  dock Pier_0 20000 10000 30000
+  dock Pier_17 20017 10002 40011
+  dock Pier_16 20016 10002 40010
+  dock Pier_18 20018 10002 40012
+  dock Pier_4 20004 10000 40002
+  dock Pier_3 20003 10000 40001
+  dock Pier_12 20012 10001 40008
+
+// pship  name index parent(dock/port) weight length width draft numPassengers numRooms numOccupied
+//    pship  <string> <int> <int> <double> <double> <double> <double> <int> <int> <int>
+    pship               Bandit 30000 20000 74.22 467.07 68.05 44.79 1119 874 559
+    pship         Countertenor 30002 20007 118.92 170.15 34.06 28.63 1846 1085 923
+    pship               Primes 30004 20014 234.10 159.25 44.68 19.97 196 366 98
+    pship               Swarms 30005 20015 108.16 374.94 69.62 26.99 1192 333 333
+    pship             Leftward 30001 20001 109.88 163.34 80.59 28.90 3163 920 920
+    pship              Roofing 30003 20008 218.16 186.57 85.34 41.27 2044 733 733
+
+// cship  name index parent(dock/port) weight length width draft cargoWeight cargoVolume cargoValue
+//    cship  <string> <int> <int> <double> <double> <double> <double> <double> <double> <double>
+    cship              Torques 40013 20019 209.60 347.57 109.00 22.50 153.71 175.60 198.86
+    cship           Scarpering 40001 20003 204.83 403.30 116.69 42.91 40.62 169.36 268.20
+    cship              Dangles 40014 20020 61.72 412.19 92.43 16.47 120.29 106.06 23.67
+    cship       Recapitulating 40008 20012 190.69 322.22 54.01 41.81 45.74 179.07 726.56
+    cship               Dobbin 40005 20009 120.79 412.74 39.81 15.11 169.28 172.29 241.53
+    cship             Vascular 40009 20013 143.40 170.13 125.60 19.02 142.20 152.61 651.01
+    cship            Metrology 40010 20016 71.56 425.49 112.56 17.26 179.33 190.11 968.63
+    cship               Plumes 40007 20011 176.17 279.53 124.54 31.62 187.21 160.03 456.06
+    cship             Tsunamic 40002 20004 154.63 280.10 110.17 26.23 150.46 125.62 133.76
+    cship              Harried 40004 20006 117.13 173.64 82.54 26.04 130.88 179.76 522.63
+    cship            Laudatory 40012 20018 203.88 418.68 105.41 21.21 61.70 118.07 193.41
+    cship         Exorbitantly 40006 20010 185.78 151.53 97.44 33.21 160.55 197.07 822.31
+    cship            Sliceable 40011 20017 180.55 190.00 93.80 32.58 90.34 143.35 18.12
+    cship              Orbital 40003 20005 106.05 383.80 55.60 22.31 176.82 191.75 863.47
+    cship          Refiltering 40000 20002 154.29 149.19 127.53 23.26 219.56 138.90 612.21
+
+// person name index parent skill
+//    person <string> <int> <int> <string>
+    person                 Alan 50009 10001 crew
+    person                 Chad 50004 10000 crew
+    person              Darrell 50011 10001 inspector
+    person                 Mack 50003 10000 stevedore
+    person              Valerie 50016 10002 driver
+    person               Edward 50008 10001 electrician
+    person               Marlon 50010 10001 electrician
+    person               Olivia 50001 10000 inspector
+    person                Louis 50017 10002 stevedore
+    person              Bernice 50000 10000 inspector
+    person              Desiree 50002 10000 cleaner
+    person                 Teri 50007 10001 carpenter
+    person               Margie 50019 10002 inspector
+    person              Stewart 50006 10001 clerk
+    person                Kerry 50015 10001 driver
+    person               Irving 50014 10001 carpenter
+    person                Sonya 50012 10001 inspector
+    person             Rochelle 50013 10001 stevedore
+    person                  Bob 50020 10002 crew
+    person               Philip 50005 10000 mechanic
+    person             Roderick 50021 10002 janitor
+    person              Krystal 50018 10002 stevedore
+
+// job    name index parent duration [skill]+ (one or more, matches skill in person, may repeat)
+//    job    <string> <int> <int> <double> [<string>]+
+    job         Job_56_45_38 60001 30000 116.20 driver crew
+    job         Job_45_51_67 60009 30002 112.93 stevedore engineer
+    job         Job_34_81_58 60000 30000 90.97 captain clerk cleaner
+    job         Job_33_24_33 60016 30004 81.06 mechanic clerk crane_Operator janitor
+    job         Job_16_62_87 60020 40011 76.49
+    job         Job_97_75_76 60014 40007 37.98
+    job         Job_16_92_64 60006 40003 59.53
+    job         Job_93_97_35 60023 40014 89.47
+    job         Job_35_90_91 60013 40006 117.23
+    job         Job_61_12_27 60015 40008 86.24
+    job         Job_46_99_35 60017 30004 26.46
+    job         Job_72_63_58 60005 40002 30.53 clerk
+    job         Job_23_19_32 60021 40012 95.46
+    job         Job_33_54_68 60011 40005 57.84
+    job         Job_86_22_82 60007 40004 40.87 inspector carpenter
+    job         Job_46_92_36 60003 40001 39.99 captain cleaner
+    job         Job_68_26_47 60010 30002 112.82 engineer cleaner driver
+    job         Job_93_52_93 60012 40006 52.56
+    job         Job_89_90_25 60002 40000 119.68 cleaner
+    job         Job_59_69_20 60022 40013 62.38 cleaner carpenter captain
+    job         Job_92_89_48 60019 30005 109.95
+    job         Job_93_70_28 60008 40004 93.49
+    job         Job_34_49_51 60018 30005 38.68 clerk electrician carpenter
+    job         Job_38_28_69 60004 40002 43.39 painter crew

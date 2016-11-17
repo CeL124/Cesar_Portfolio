@@ -1,0 +1,83 @@
+// File: CesarData2.txt
+// Data file for SeaPort projects
+// Date: Tue Oct 11 15:39:00 EDT 2016
+// parameters: 3 3 2 2 3 6
+//   ports, docks, pships, cships, jobs, persons
+
+// port   name index parent(null)
+//    port   <string> <int> <int>
+port Wakayama 10001 0
+port Durban 10000 0
+port Bandar_Abbas 10002 0
+
+// dock   name index parent(port)
+//    dock   <string> <int> <int>
+  dock Pier_0 20000 10000 30000
+  dock Pier_4 20004 10001 30002
+  dock Pier_11 20011 10002 40005
+  dock Pier_6 20006 10001 40002
+  dock Pier_10 20010 10002 40004
+  dock Pier_3 20003 10000 40001
+  dock Pier_7 20007 10001 40003
+  dock Pier_2 20002 10000 40000
+  dock Pier_9 20009 10002 30005
+  dock Pier_5 20005 10001 30003
+  dock Pier_8 20008 10002 30004
+  dock Pier_1 20001 10000 30001
+
+// pship  name index parent(dock/port) weight length width draft numPassengers numRooms numOccupied
+//    pship  <string> <int> <int> <double> <double> <double> <double> <int> <int> <int>
+    pship             Filespec 30005 20009 161.85 492.33 70.29 26.11 361 666 180
+    pship               Tennis 30001 20001 154.57 401.56 76.65 26.26 597 291 291
+    pship               Bistro 30003 20005 120.20 333.08 99.04 44.49 2581 783 783
+    pship            Symbioses 30002 20004 103.83 294.64 65.64 42.51 1031 397 397
+    pship          Adumbrative 30000 20000 247.13 430.21 34.80 16.75 327 187 163
+    pship              Reglues 30004 20008 196.21 421.02 43.92 39.68 3227 1089 1089
+
+// cship  name index parent(dock/port) weight length width draft cargoWeight cargoVolume cargoValue
+//    cship  <string> <int> <int> <double> <double> <double> <double> <double> <double> <double>
+    cship            Fungosity 40001 20003 170.09 147.52 93.15 18.28 122.03 132.82 865.04
+    cship               Wivern 40002 20006 166.09 482.24 35.47 41.88 140.22 175.91 635.75
+    cship     Terminologically 40005 20011 102.93 318.67 127.65 20.23 169.50 188.49 347.82
+    cship                 Peon 40003 20007 158.58 209.75 90.42 17.65 148.23 157.50 581.39
+    cship          Prettifiers 40000 20002 160.69 441.80 125.84 24.84 212.48 199.78 137.56
+    cship              Manured 40004 20010 180.89 310.45 50.17 33.34 193.61 152.73 256.95
+
+// person name index parent skill
+//    person <string> <int> <int> <string>
+    person                Donna 50004 10000 engineer
+    person              Harriet 50018 10002 crew
+    person                 Vera 50011 10001 crane_Operator
+    person               Ginger 50013 10001 painter
+    person                Ethel 50012 10001 carpenter
+    person               Nicole 50020 10002 clerk
+    person               Randal 50015 10001 engineer
+    person               Connie 50005 10000 mechanic
+    person                Laura 50014 10001 janitor
+    person              Ernesto 50010 10001 cleaner
+    person             Angelina 50003 10000 crew
+    person              Gilbert 50002 10000 mate
+    person               Brandy 50008 10001 mate
+    person                 Olga 50017 10002 carpenter
+    person                  Joe 50000 10000 carpenter
+    person             Cristina 50001 10000 crew
+    person                Terri 50016 10002 mechanic
+    person                Doris 50019 10002 cleaner
+    person                 Raul 50006 10000 inspector
+    person                Brent 50009 10001 janitor
+    person                 Dora 50007 10000 crane_Operator
+
+// job    name index parent duration [skill]+ (one or more, matches skill in person, may repeat)
+//    job    <string> <int> <int> <double> [<string>]+
+    job         Job_37_53_59 60009 30005 49.86 driver engineer
+    job         Job_50_83_77 60008 30004 115.86 inspector
+    job         Job_30_45_62 60000 30000 71.43 janitor crew
+    job         Job_54_83_62 60002 40001 100.68 driver
+    job         Job_33_53_64 60006 40002 68.83 engineer
+    job         Job_29_32_75 60010 40004 46.62 painter inspector
+    job         Job_62_21_94 60011 40004 86.34 stevedore
+    job         Job_54_32_99 60001 40001 46.78 engineer crew
+    job         Job_69_72_39 60003 30002 83.83
+    job         Job_61_30_13 60005 40002 61.35 electrician stevedore cleaner
+    job         Job_48_64_39 60007 40003 83.43 electrician
+    job         Job_77_12_85 60004 30003 58.58
