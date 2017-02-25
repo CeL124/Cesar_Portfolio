@@ -1,0 +1,8 @@
+2014, Employee, Bruce Banner, 3000
+2014, Employee, Parker Peter, 3200
+2014, Executive, Lopez Cesar, 12000, 55
+2014, Salesman, Kent Clark, 6000, 200000
+2015, Executive, Wayne Bruce, 11000, 49
+2015, Salesman, Stark Tony, 4000, 100000
+2015, Employee, Lee Bruce, 2500
+2015, Executive, Kelly Scott, 10000, 51
