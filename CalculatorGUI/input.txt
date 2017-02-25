@@ -1,0 +1,24 @@
+Window "Calculator" (250, 280) 
+Layout Border:
+    Textfield 20;
+    Panel Layout Grid (4, 4, 4, 5):
+    Button "7";
+    Button "8";
+    Button "9";
+    Button "+"
+    Button "4";
+    Button "5";
+    Button "6";
+    Button "-"
+    Button "1";
+    Button "2";
+    Button "3";
+    Button "x"
+    Button ".";
+    Button "0";
+    Button "=";
+    Button "/"
+    Edit Button "Clear"
+    Edit Button "BackSpace"
+  End;
+End.
