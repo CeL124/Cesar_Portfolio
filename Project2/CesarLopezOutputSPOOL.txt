@@ -1,0 +1,892 @@
+SQL> 
+SQL> DROP TABLE MovieCastMember CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE Actor CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE Award CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE Director CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE Discount CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE Distributor_Invoice CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE Distributor CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE Catalog_T CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE Movie CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE Rental_Invoice CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE MovieFormat CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE Customer CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> 
+SQL> CREATE TABLE Customer
+  2  		     (CustomerID			     NUMBER(11)      NOT NULL,
+  3  		     C_Name				     VARCHAR(25) NOT NULL,
+  4  		     Address				     VARCHAR(30) NOT NULL,
+  5  		     City				     VARCHAR(20) NOT NULL,
+  6  		     C_State				     CHAR(2)	 NOT NULL,
+  7  		     ZipCode				     VARCHAR(9)  NOT NULL,
+  8  		     Telephone_Number		     VARCHAR(13) NOT NULL,
+  9  		     YearlyRental		     NUMBER(4,0) NOT NULL,
+ 10  		     MonthlyRental		     NUMBER(3,0) NOT NULL,
+ 11  		     TotalRental			     NUMBER(5,0) NOT NULL,
+ 12  CONSTRAINT PK_Customer PRIMARY KEY (CustomerID));
+
+Table created.
+
+SQL> 
+SQL> 
+SQL> CREATE TABLE Director
+  2  		     (DirectorID			     NUMBER(11)      NOT NULL,
+  3  		     DirectorName		     VARCHAR(25) NOT NULL,
+  4  		     DirectorGender		     VARCHAR(6),
+  5  CONSTRAINT Director_PK PRIMARY KEY (DirectorID));
+
+Table created.
+
+SQL> 
+SQL> 
+SQL> CREATE TABLE Actor
+  2  		     (ActorID				     NUMBER(11)      NOT NULL,
+  3  		     ActorName				     VARCHAR(30) NOT NULL,
+  4  		     ActorGender			     VARCHAR(6),
+  5  CONSTRAINT Actor_PK PRIMARY     KEY (ActorID));
+
+Table created.
+
+SQL> 
+SQL> 
+SQL> CREATE TABLE Award
+  2  		     (AwardID				     NUMBER(11)  NOT NULL,
+  3  		     AwardCatagory		     VARCHAR(40) NOT NULL,
+  4  CONSTRAINT Award_PK PRIMARY KEY (AwardID));
+
+Table created.
+
+SQL> 
+SQL> 
+SQL> CREATE TABLE Movie
+  2  		     (StoreMovie_ID		     NUMBER(11) NOT NULL,
+  3  		     ActorID				     NUMBER(11) NOT NULL,
+  4  		     DirectorID 			     NUMBER(11) NOT NULL,
+  5  		     AwardID				     NUMBER(11),
+  6  		     CatalogID				     NUMBER(11) NOT NULL,
+  7  		     MovieTitle 			     VARCHAR(50),
+  8  		     Genre				     VARCHAR(10) NOT NULL,
+  9  		     YearReleased		     DATE NOT NULL,
+ 10  		     MovieLength			     VARCHAR(12),
+ 11  		     Rating				     NUMBER(2,0),
+ 12  CONSTRAINT Movie_PK  PRIMARY KEY (StoreMovie_ID),
+ 13  CONSTRAINT Movie_FK1 FOREIGN KEY (ActorID) REFERENCES Actor (ActorID),
+ 14  CONSTRAINT Movie_FK2 FOREIGN KEY (DirectorID) REFERENCES Director (DirectorID),
+ 15  CONSTRAINT Movie_FK3 FOREIGN KEY (AwardID) REFERENCES Award (AwardID));
+
+Table created.
+
+SQL> 
+SQL> 
+SQL> CREATE TABLE MovieCastMember
+  2  		     (StoreMovie_ID		     NUMBER(11) NOT NULL,
+  3  		     ActorID				     NUMBER(11) NOT NULL,
+  4  CONSTRAINT MovieCastMember_FK1  FOREIGN KEY (StoreMovie_ID) REFERENCES Movie (StoreMovie_ID),
+  5  CONSTRAINT MovieCastMember_FK2  FOREIGN KEY (ActorID) REFERENCES Actor (ActorID));
+
+Table created.
+
+SQL> 
+SQL> 
+SQL> CREATE TABLE MovieFormat
+  2  		     (Store_SerialNumber		     NUMBER(11) NOT NULL,
+  3  		     StoreMovie_ID			     NUMBER(11) NOT NULL,
+  4  		     Distributor_SerialNumeber	     NUMBER(11) NOT NULL,
+  5  		     DVDorVHS					     VARCHAR(4),
+  6  CONSTRAINT MovieFormat_PK PRIMARY KEY (Store_SerialNumber),
+  7  CONSTRAINT MovieFormat_FK FOREIGN KEY (StoreMovie_ID) REFERENCES Movie (StoreMovie_ID));
+
+Table created.
+
+SQL> 
+SQL> 
+SQL> CREATE TABLE Rental_Invoice
+  2  		     (RentalID				     NUMBER(11) NOT NULL,
+  3  		     CustomerID 			     NUMBER(11)      NOT NULL,
+  4  		     Store_SerialNumber 	     NUMBER(11) NOT NULL,
+  5  		     RentalDate 			     DATE,
+  6  		     RentalReturn		     DATE,
+  7  		     LateFees				     NUMBER(5,2),
+  8  		     DamageFees 			     NUMBER(5,2),
+  9  		     NotRewinded_FEE		     NUMBER(5,2),
+ 10  		     Taxes				     NUMBER(3,2),
+ 11  CONSTRAINT Rental_Invoice_PK PRIMARY KEY (RentalID),
+ 12  CONSTRAINT Rental_Invoice_FK1 FOREIGN KEY (CustomerID) REFERENCES Customer (CustomerID),
+ 13  CONSTRAINT Rental_Invoice_FK2 FOREIGN KEY (Store_SerialNumber) REFERENCES MovieFormat (Store_SerialNumber));
+
+Table created.
+
+SQL> 
+SQL> 
+SQL> CREATE TABLE Distributor
+  2  		     (DistributorID		     NUMBER(11) NOT NULL,
+  3  		     DIstributorName		     VARCHAR(50),
+  4  		     NumberOf_Shipments 	     NUMBER(8),
+  5  CONSTRAINT Distributor_PK PRIMARY KEY (DistributorID));
+
+Table created.
+
+SQL> 
+SQL> 
+SQL> CREATE TABLE Distributor_Invoice
+  2  		     (InvoiceNumber		     NUMBER(11) NOT NULL,
+  3  		     DistributorID		     NUMBER(11) NOT NULL,
+  4  		     Price				     NUMBER(9,2),
+  5  		     Quantity				     NUMBER(5,0),
+  6  CONSTRAINT Distributor_Invoice_PK PRIMARY KEY (InvoiceNumber),
+  7  CONSTRAINT Distributor_Invoice_FK FOREIGN KEY (DistributorID) REFERENCES Distributor (DistributorID));
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE Catalog_T
+  2  		     (CatalogID 			     NUMBER(11) NOT NULL,
+  3  		     DistributorID		     NUMBER(11) NOT NULL,
+  4  		     DistributorMovie_ID	     VARCHAR(9),
+  5  CONSTRAINT Catalog_T_PK PRIMARY KEY (CatalogID),
+  6  CONSTRAINT Catalog_T_FK FOREIGN KEY (DistributorID) REFERENCES Distributor (DistributorID));
+
+Table created.
+
+SQL> 
+SQL> 
+SQL> CREATE TABLE Discount
+  2  		     (DiscountID		     NUMBER(11) NOT NULL,
+  3  		     StoreMovie_ID	     NUMBER(11) NOT NULL,
+  4  		     Genre			     VARCHAR(15),
+  5  		     DiscountPrice	     NUMBER(4,2) NOT NULL,
+  6  CONSTRAINT Discount_PK PRIMARY KEY (DiscountID),
+  7  CONSTRAINT Discount_FK FOREIGN KEY (StoreMovie_ID) REFERENCES Movie (StoreMovie_ID));
+
+Table created.
+
+SQL> 
+SQL> ALTER TABLE Movie ADD CONSTRAINT Movie_FK4 FOREIGN KEY (CatalogID) REFERENCES Catalog_T (CatalogID);
+
+Table altered.
+
+SQL> 
+SQL> @CesarLopezProject2Step2.sql
+SQL> 
+SQL> 
+SQL> DELETE FROM Customer;
+
+0 rows deleted.
+
+SQL> DELETE FROM Director;
+
+0 rows deleted.
+
+SQL> 
+SQL> 
+SQL> INSERT INTO Customer
+  2  (CustomerID, C_Name, Address, City, C_State, ZipCode, Telephone_Number, YearlyRental, MonthlyRental, TotalRental)
+  3  VALUES
+  4  (00001, 'Cesar Lopez', '3752 89th street', 'New York City', 'NY', '11372', '718-898-2868', 144, 12, 144);
+
+1 row created.
+
+SQL> INSERT INTO Customer
+  2  (CustomerID, C_Name, Address, City, C_State, ZipCode, Telephone_Number, YearlyRental, MonthlyRental, TotalRental)
+  3  VALUES
+  4  (00001, 'Efrain Lopez', '7925 Spiceberry Cir', 'Gaithersburg', 'MD','20877', '240-366-6076', 132, 11, 132 );
+INSERT INTO Customer
+*
+ERROR at line 1:
+ORA-00001: unique constraint (CM320N15.PK_CUSTOMER) violated 
+
+
+SQL> /*
+SQL> This INSERT stament above failed the table integrity because the Customer object, Cesar and Efrain, both have
+SQL> the same primary key value and this fails the CONSTRAINT for CustomerID as primary key
+SQL> I set up in the Customer Table
+SQL> */
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> INSERT INTO Director
+  2  (DirectorID, DirectorGender)
+  3  VALUES
+  4  (00012, 'Male');
+INSERT INTO Director
+*
+ERROR at line 1:
+ORA-01400: cannot insert NULL into ("CM320N15"."DIRECTOR"."DIRECTORNAME") 
+
+
+SQL> /*
+SQL> The above INSERT statement fails my Director Table integrity because I did not put
+SQL> DirectorName in the INSERT statement. The DirectorName column in the Director table was
+SQL> declared NOT NULL, which means that there must always be a value in that column.
+SQL> */
+SQL> 
+SQL> @CesarLopezProject2Step3.sql
+SQL> 
+SQL> 
+SQL> DELETE MovieCastMember;
+
+0 rows deleted.
+
+SQL> DELETE Discount;
+
+0 rows deleted.
+
+SQL> DELETE Distributor_Invoice;
+
+0 rows deleted.
+
+SQL> DELETE Rental_Invoice;
+
+0 rows deleted.
+
+SQL> DELETE MovieFormat;
+
+0 rows deleted.
+
+SQL> DELETE Movie;
+
+0 rows deleted.
+
+SQL> DELETE Catalog_T;
+
+0 rows deleted.
+
+SQL> DELETE Distributor;
+
+0 rows deleted.
+
+SQL> DELETE Actor;
+
+0 rows deleted.
+
+SQL> DELETE Award;
+
+0 rows deleted.
+
+SQL> DELETE Director;
+
+0 rows deleted.
+
+SQL> DELETE Customer;
+
+1 row deleted.
+
+SQL> 
+SQL> INSERT INTO Customer
+  2  (CustomerID, C_Name, Address, City, C_State, ZipCode, Telephone_Number, YearlyRental, MonthlyRental, TotalRental)
+  3  VALUES
+  4  (00001, 'Cesar Lopez', '3752 89th street', 'New York City', 'NY', '11372', '718-898-2868', 144, 12, 144);
+
+1 row created.
+
+SQL> INSERT INTO Customer
+  2  (CustomerID, C_Name, Address, City, C_State, ZipCode, Telephone_Number, YearlyRental, MonthlyRental, TotalRental)
+  3  VALUES
+  4  (00002, 'Efrain Lopez', '7925 Spiceberry Cir', 'Gaithersburg', 'MD','20877', '240-366-6076', 132, 11, 132);
+
+1 row created.
+
+SQL> INSERT INTO Customer
+  2  (CustomerID, C_Name, Address, City, C_State, ZipCode, Telephone_Number, YearlyRental, MonthlyRental, TotalRental)
+  3  VALUES
+  4  (00003, 'Bruce Banner', '1176 Prince Hall Ct', 'Gaithersburg', 'MD','20877', '240-366-1111', 120, 10, 120);
+
+1 row created.
+
+SQL> INSERT INTO Customer
+  2  (CustomerID, C_Name, Address, City, C_State, ZipCode, Telephone_Number, YearlyRental, MonthlyRental, TotalRental)
+  3  VALUES
+  4  (00004, 'Chris Kyle', '1673 SEAL St', 'Fredrick', 'MD','20704', '240-777-2376', 12, 1, 21);
+
+1 row created.
+
+SQL> INSERT INTO Customer
+  2  (CustomerID, C_Name, Address, City, C_State, ZipCode, Telephone_Number, YearlyRental, MonthlyRental, TotalRental)
+  3  VALUES
+  4  (00005, 'Tony Stark', '1777 Rich St', 'Potomac', 'MD','20422', '240-222-6776', 72, 6, 202);
+
+1 row created.
+
+SQL> INSERT INTO Customer
+  2  (CustomerID, C_Name, Address, City, C_State, ZipCode, Telephone_Number, YearlyRental, MonthlyRental, TotalRental)
+  3  VALUES
+  4  (00006, 'Clark Kent', '3432 Smallville Rd', 'Hagerstown', 'MD','20222', '240-911-6776', 24, 2, 42);
+
+1 row created.
+
+SQL> INSERT INTO Customer
+  2  (CustomerID, C_Name, Address, City, C_State, ZipCode, Telephone_Number, YearlyRental, MonthlyRental, TotalRental)
+  3  VALUES
+  4  (00007, 'Scott Kelly', '345 Astronaut way', 'Bethesda', 'MD','20890', '240-123-5676', 56, 9, 90);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO Director
+  2  (DirectorID, DirectorName, DirectorGender)
+  3  VALUES
+  4  (01,'Woody Allen','Male');
+
+1 row created.
+
+SQL> INSERT INTO Director
+  2  (DirectorID, DirectorName, DirectorGender)
+  3  VALUES
+  4  (02,'Ridley Scott' ,'Male');
+
+1 row created.
+
+SQL> INSERT INTO Director
+  2  (DirectorID, DirectorName, DirectorGender)
+  3  VALUES
+  4  (03,'Quentin Tarantino','Male');
+
+1 row created.
+
+SQL> INSERT INTO Director
+  2  (DirectorID, DirectorName, DirectorGender)
+  3  VALUES
+  4  (04,'Kathryn Bigelow','female');
+
+1 row created.
+
+SQL> INSERT INTO Director
+  2  (DirectorID, DirectorName, DirectorGender)
+  3  VALUES
+  4  (05,'Christopher Nolan','Male');
+
+1 row created.
+
+SQL> INSERT INTO Director
+  2  (DirectorID, DirectorName, DirectorGender)
+  3  VALUES
+  4  (06,'Zack Snyder','Male');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO Actor
+  2  (ActorID, ActorName, ActorGender)
+  3  VALUES
+  4  (001,'Matt Damon','Male');
+
+1 row created.
+
+SQL> INSERT INTO Actor
+  2  (ActorID, ActorName, ActorGender)
+  3  VALUES
+  4  (002,'Mark Wahlberg','Male');
+
+1 row created.
+
+SQL> INSERT INTO Actor
+  2  (ActorID, ActorName, ActorGender)
+  3  VALUES
+  4  (003,'Will Smith','Male');
+
+1 row created.
+
+SQL> INSERT INTO Actor
+  2  (ActorID, ActorName, ActorGender)
+  3  VALUES
+  4  (004,'Tina Fey','Female');
+
+1 row created.
+
+SQL> INSERT INTO Actor
+  2  (ActorID, ActorName, ActorGender)
+  3  VALUES
+  4  (005,'Jennifer Lawrence','Female');
+
+1 row created.
+
+SQL> INSERT INTO Actor
+  2  (ActorID, ActorName, ActorGender)
+  3  VALUES
+  4  (006,' Ben Affleck','Male');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO Award
+  2  (AwardID, AwardCatagory)
+  3  VALUES
+  4  (1011, 'Academy Award for Best Director');
+
+1 row created.
+
+SQL> INSERT INTO Award
+  2  (AwardID, AwardCatagory)
+  3  VALUES
+  4  (1012, 'Academy Award for Best Actor');
+
+1 row created.
+
+SQL> INSERT INTO Award
+  2  (AwardID, AwardCatagory)
+  3  VALUES
+  4  (1013, 'Academy Award for Best Actress');
+
+1 row created.
+
+SQL> INSERT INTO Award
+  2  (AwardID, AwardCatagory)
+  3  VALUES
+  4  (1014, 'Academy Award for Best Production Design');
+
+1 row created.
+
+SQL> INSERT INTO Award
+  2  (AwardID, AwardCatagory)
+  3  VALUES
+  4  (1015, 'Academy Award for Best Animated Feature');
+
+1 row created.
+
+SQL> INSERT INTO Award
+  2  (AwardID, AwardCatagory)
+  3  VALUES
+  4  (1016, 'Best Documentary Feature');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO Distributor
+  2  (DistributorID, DistributorName, NumberOf_Shipments)
+  3  VALUES
+  4  (5001, 'The MovieMan inc.', 57);
+
+1 row created.
+
+SQL> INSERT INTO Distributor
+  2  (DistributorID, DistributorName, NumberOf_Shipments)
+  3  VALUES
+  4  (5002, 'ABC Movie Districts', 237);
+
+1 row created.
+
+SQL> INSERT INTO Distributor
+  2  (DistributorID, DistributorName, NumberOf_Shipments)
+  3  VALUES
+  4  (5003, 'The Middle Man Corporation', 10);
+
+1 row created.
+
+SQL> INSERT INTO Distributor
+  2  (DistributorID, DistributorName, NumberOf_Shipments)
+  3  VALUES
+  4  (5004, 'Columbia House Inc', 352);
+
+1 row created.
+
+SQL> INSERT INTO Distributor
+  2  (DistributorID, DistributorName, NumberOf_Shipments)
+  3  VALUES
+  4  (5005, 'Film Delivery Boys LLC', 1052);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO Catalog_T
+  2  (CatalogID, DistributorID, DistributorMovie_ID)
+  3  VALUES
+  4  (60001, 5005, 'D00001');
+
+1 row created.
+
+SQL> INSERT INTO Catalog_T
+  2  (CatalogID, DistributorID, DistributorMovie_ID)
+  3  VALUES
+  4  (60002, 5004, 'D00002');
+
+1 row created.
+
+SQL> INSERT INTO Catalog_T
+  2  (CatalogID, DistributorID, DistributorMovie_ID)
+  3  VALUES
+  4  (60003, 5003, 'D00003');
+
+1 row created.
+
+SQL> INSERT INTO Catalog_T
+  2  (CatalogID, DistributorID, DistributorMovie_ID)
+  3  VALUES
+  4  (60004, 5002, 'D00004');
+
+1 row created.
+
+SQL> INSERT INTO Catalog_T
+  2  (CatalogID, DistributorID, DistributorMovie_ID)
+  3  VALUES
+  4  (60005, 5001, 'D00005');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO Distributor_Invoice
+  2  (InvoiceNumber, DistributorID, Price, Quantity)
+  3  VALUES
+  4  (9000001, 5001, 532.98, 240);
+
+1 row created.
+
+SQL> INSERT INTO Distributor_Invoice
+  2  (InvoiceNumber, DistributorID, Price, Quantity)
+  3  VALUES
+  4  (9000002, 5002, 932.98, 423);
+
+1 row created.
+
+SQL> INSERT INTO Distributor_Invoice
+  2  (InvoiceNumber, DistributorID, Price, Quantity)
+  3  VALUES
+  4  (9000003, 5003, 123.45, 67);
+
+1 row created.
+
+SQL> INSERT INTO Distributor_Invoice
+  2  (InvoiceNumber, DistributorID, Price, Quantity)
+  3  VALUES
+  4  (9000004, 5004, 84.98, 24);
+
+1 row created.
+
+SQL> INSERT INTO Distributor_Invoice
+  2  (InvoiceNumber, DistributorID, Price, Quantity)
+  3  VALUES
+  4  (9000005, 5005, 5032.98, 850);
+
+1 row created.
+
+SQL> 
+SQL> --For the Movie table, the rating scale is 01 worst --> 10 best
+SQL> INSERT INTO Movie
+  2  (StoreMovie_ID, ActorID, DirectorID, AwardID, CatalogID, MovieTitle, Genre, YearReleased, MovieLength, Rating)
+  3  VALUES
+  4  (100000001, 004, 05, 1013, 60001, 'Whiskey Foxtrot Tango', 'Comedy', TO_DATE('2016','YYYY'), '96 Minutes', 07);
+
+1 row created.
+
+SQL> INSERT INTO Movie
+  2  (StoreMovie_ID, ActorID, DirectorID, AwardID, CatalogID, MovieTitle, Genre, YearReleased, MovieLength, Rating)
+  3  VALUES
+  4  (100000002, 002, 04, 1016, 60002, 'Lone Survivor', 'Action', TO_DATE('2013','YYYY'), '121 Minutes', 08);
+
+1 row created.
+
+SQL> INSERT INTO Movie
+  2  (StoreMovie_ID, ActorID, DirectorID, AwardID, CatalogID, MovieTitle, Genre, YearReleased, MovieLength, Rating)
+  3  VALUES
+  4  (100000003, 003, 03, 1011, 60003, 'I AM LEGEND', 'Horror', TO_DATE('2007','YYYY'), '101 Minutes', 06);
+
+1 row created.
+
+SQL> INSERT INTO Movie
+  2  (StoreMovie_ID, ActorID, DirectorID, AwardID, CatalogID, MovieTitle, Genre, YearReleased, MovieLength, Rating)
+  3  VALUES
+  4  (100000004, 001, 02, 1014, 60004, 'The Martian', ' Adventure', TO_DATE('2015','YYYY'), '144 Minutes', 10);
+
+1 row created.
+
+SQL> INSERT INTO Movie
+  2  (StoreMovie_ID, ActorID, DirectorID, AwardID, CatalogID, MovieTitle, Genre, YearReleased, MovieLength, Rating)
+  3  VALUES
+  4  (100000005, 006, 06, 1012, 60005, 'Batman v Superman: Dawn of Justice', 'Adventure', TO_DATE('2016','YYYY'), '151 Minutes', 01);
+
+1 row created.
+
+SQL> INSERT INTO Movie
+  2  (StoreMovie_ID, ActorID, DirectorID, AwardID, CatalogID, MovieTitle, Genre, YearReleased, MovieLength, Rating)
+  3  VALUES
+  4  (100000006, 005, 01, 1015, 60004, 'X-Men: Days of Future Past', 'Fantasy', TO_DATE('2014','YYYY'), '132 Minutes', 05);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO MovieCastMember
+  2  (StoreMovie_ID, ActorID)
+  3  VALUES
+  4  (100000001, 004);
+
+1 row created.
+
+SQL> INSERT INTO MovieCastMember
+  2  (StoreMovie_ID, ActorID)
+  3  VALUES
+  4  (100000002, 002);
+
+1 row created.
+
+SQL> INSERT INTO MovieCastMember
+  2  (StoreMovie_ID, ActorID)
+  3  VALUES
+  4  (100000003, 003);
+
+1 row created.
+
+SQL> INSERT INTO MovieCastMember
+  2  (StoreMovie_ID, ActorID)
+  3  VALUES
+  4  (100000004, 001);
+
+1 row created.
+
+SQL> INSERT INTO MovieCastMember
+  2  (StoreMovie_ID, ActorID)
+  3  VALUES
+  4  (100000005, 006);
+
+1 row created.
+
+SQL> INSERT INTO MovieCastMember
+  2  (StoreMovie_ID, ActorID)
+  3  VALUES
+  4  (100000006, 005);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO Discount
+  2  (DiscountID, StoreMovie_ID, Genre, DiscountPrice)
+  3  VALUES
+  4  (560001, 100000006, 'Fantasy', 5.00);
+
+1 row created.
+
+SQL> INSERT INTO Discount
+  2  (DiscountID, StoreMovie_ID, Genre, DiscountPrice)
+  3  VALUES
+  4  (560002, 100000002, 'Action', 3.50);
+
+1 row created.
+
+SQL> INSERT INTO Discount
+  2  (DiscountID, StoreMovie_ID, Genre, DiscountPrice)
+  3  VALUES
+  4  (560003, 100000003, 'Horror', 4.25);
+
+1 row created.
+
+SQL> INSERT INTO Discount
+  2  (DiscountID, StoreMovie_ID, Genre, DiscountPrice)
+  3  VALUES
+  4  (560004, 100000005, 'Adventure', 4.75);
+
+1 row created.
+
+SQL> INSERT INTO Discount
+  2  (DiscountID, StoreMovie_ID, Genre, DiscountPrice)
+  3  VALUES
+  4  (560005,100000001, 'Comedy', 3.99);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO MovieFormat
+  2  (Store_SerialNumber, StoreMovie_ID, Distributor_SerialNumeber, DVDorVHS)
+  3  VALUES
+  4  (34001, 100000001, 089001, 'DVD');
+
+1 row created.
+
+SQL> INSERT INTO MovieFormat
+  2  (Store_SerialNumber, StoreMovie_ID, Distributor_SerialNumeber, DVDorVHS)
+  3  VALUES
+  4  (34002, 100000002, 089002, 'DVD');
+
+1 row created.
+
+SQL> INSERT INTO MovieFormat
+  2  (Store_SerialNumber, StoreMovie_ID, Distributor_SerialNumeber, DVDorVHS)
+  3  VALUES
+  4  (34003, 100000003, 089003, 'VHS');
+
+1 row created.
+
+SQL> INSERT INTO MovieFormat
+  2  (Store_SerialNumber, StoreMovie_ID, Distributor_SerialNumeber, DVDorVHS)
+  3  VALUES
+  4  (34004, 100000004, 089004, 'VHS');
+
+1 row created.
+
+SQL> INSERT INTO MovieFormat
+  2  (Store_SerialNumber, StoreMovie_ID, Distributor_SerialNumeber, DVDorVHS)
+  3  VALUES
+  4  (34005, 100000005, 089005, 'DVD');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO Rental_Invoice
+  2  (RentalID, CustomerID, Store_SerialNumber, RentalDate, RentalReturn, LateFees, DamageFees, NotRewinded_FEE, Taxes)
+  3  VALUES
+  4  (200001, 00001, 34001, TO_DATE('2016/06/27', 'yyyy/mm/dd'), TO_DATE('2016/07/07', 'yyyy/mm/dd'), 1.02, 2.00, 1.50, 2.50);
+
+1 row created.
+
+SQL> INSERT INTO Rental_Invoice
+  2  (RentalID, CustomerID, Store_SerialNumber, RentalDate, RentalReturn, LateFees, DamageFees, NotRewinded_FEE, Taxes)
+  3  VALUES
+  4  (200002, 00002, 34002, TO_DATE('2016/04/06', 'yyyy/mm/dd'), TO_DATE('2016/04/13', 'yyyy/mm/dd'), 1.50, 2.50, 1.00, 2.20);
+
+1 row created.
+
+SQL> INSERT INTO Rental_Invoice
+  2  (RentalID, CustomerID, Store_SerialNumber, RentalDate, RentalReturn, LateFees, DamageFees, NotRewinded_FEE, Taxes)
+  3  VALUES
+  4  (200003, 00003, 34003, TO_DATE('2016/06/30', 'yyyy/mm/dd'), TO_DATE('2016/07/12', 'yyyy/mm/dd'), 1.62, 2.40, 1.50, 2.50);
+
+1 row created.
+
+SQL> INSERT INTO Rental_Invoice
+  2  (RentalID, CustomerID, Store_SerialNumber, RentalDate, RentalReturn, LateFees, DamageFees, NotRewinded_FEE, Taxes)
+  3  VALUES
+  4  (200004, 00004, 34004, TO_DATE('2016/07/01', 'yyyy/mm/dd'), TO_DATE('2016/07/10', 'yyyy/mm/dd'), 3.02, 5.00, 6.50, 5.50);
+
+1 row created.
+
+SQL> INSERT INTO Rental_Invoice
+  2  (RentalID, CustomerID, Store_SerialNumber, RentalDate, RentalReturn, LateFees, DamageFees, NotRewinded_FEE, Taxes)
+  3  VALUES
+  4  (200005, 00005, 34005, TO_DATE('2016/01/16', 'yyyy/mm/dd'), TO_DATE('2016/01/23', 'yyyy/mm/dd'), 1.34, 3.00, 2.50, 3.50);
+
+1 row created.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> @CesarLopezProject2Step4.sql
+SQL> 
+SQL> 
+SQL> --Retrieve all of your customers' names, account numbers,
+SQL> --and addresses (street and zip code only), sorted by account number.
+SQL> SELECT C_Name, CustomerID, Address, ZipCode
+  2  FROM Customer
+  3  ORDER BY CustomerID;
+
+C_NAME                    CUSTOMERID ADDRESS                        ZIPCODE     
+------------------------- ---------- ------------------------------ ---------   
+Cesar Lopez                        1 3752 89th street               11372       
+Efrain Lopez                       2 7925 Spiceberry Cir            20877       
+Bruce Banner                       3 1176 Prince Hall Ct            20877       
+Chris Kyle                         4 1673 SEAL St                   20704       
+Tony Stark                         5 1777 Rich St                   20422       
+Clark Kent                         6 3432 Smallville Rd             20222       
+Scott Kelly                        7 345 Astronaut way              20890       
+
+7 rows selected.
+
+SQL> 
+SQL> 
+SQL> --Retrieve all of the videos rented in the last 30 days and sort in chronological rental date order.
+SQL> SELECT *
+  2  FROM Rental_Invoice
+  3  WHERE RentalDate >=(SYSDATE-30)
+  4  ORDER BY RentalDate;
+
+  RENTALID CUSTOMERID STORE_SERIALNUMBER RENTALDAT RENTALRET   LATEFEES         
+---------- ---------- ------------------ --------- --------- ----------         
+DAMAGEFEES NOTREWINDED_FEE      TAXES                                           
+---------- --------------- ----------                                           
+    200001          1              34001 27-JUN-16 07-JUL-16       1.02         
+         2             1.5        2.5                                           
+                                                                                
+    200003          3              34003 30-JUN-16 12-JUL-16       1.62         
+       2.4             1.5        2.5                                           
+                                                                                
+    200004          4              34004 01-JUL-16 10-JUL-16       3.02         
+         5             6.5        5.5                                           
+                                                                                
+
+SQL> 
+SQL> --Produce a list of your distributors and all their information sorted in order by company name.
+SQL> SELECT DistributorName, DistributorID, NumberOf_Shipments
+  2  FROM Distributor
+  3  ORDER BY DistributorName;
+
+DISTRIBUTORNAME                                    DISTRIBUTORID                
+-------------------------------------------------- -------------                
+NUMBEROF_SHIPMENTS                                                              
+------------------                                                              
+ABC Movie Districts                                         5002                
+               237                                                              
+                                                                                
+Columbia House Inc                                          5004                
+               352                                                              
+                                                                                
+Film Delivery Boys LLC                                      5005                
+              1052                                                              
+                                                                                
+
+DISTRIBUTORNAME                                    DISTRIBUTORID                
+-------------------------------------------------- -------------                
+NUMBEROF_SHIPMENTS                                                              
+------------------                                                              
+The Middle Man Corporation                                  5003                
+                10                                                              
+                                                                                
+The MovieMan inc.                                           5001                
+                57                                                              
+                                                                                
+
+SQL> 
+SQL> 
+SQL> --Update a customer name to change their maiden names to married names. You can
+SQL> --choose which row to update.  Make sure that you use the primary key column in your
+SQL> --WHERE clause to affect only a specific row.
+SQL> UPDATE Customer
+  2  SET C_Name = 'Bruce Wayne'
+  3  WHERE CustomerID = 00003;
+
+1 row updated.
+
+SQL> 
+SQL> 
+SQL> --Delete customers from the database. You can choose which row to delete.
+SQL> --Make sure that you use the primary key column in your WHERE clause to affect only a specific row.
+SQL> DELETE FROM Customer
+  2  WHERE CustomerID = 00006;
+
+1 row deleted.
+
+SQL> 
+SQL> SPOOL OFF
